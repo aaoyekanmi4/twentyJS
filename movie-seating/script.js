@@ -4,7 +4,6 @@ const count = document.getElementById('count');
 const total = document.getElementById('total');
 const movieSelect = document.getElementById('movie');
 let ticketPrice = +movieSelect.value;
-
 populateUI();
 //Save selected movie index and price
 function setMovieData (movieIndex, moviePrice) {
@@ -44,7 +43,7 @@ function populateUI () {
     if (selectedMovieIdx) {
         movieSelect.selectedIndex = selectedMovieIdx
     }
-      updateSelectedCount()
+
 
 }
 
@@ -61,3 +60,5 @@ container.addEventListener('click', (e) => {
     }
     updateSelectedCount();
 })
+
+updateSelectedCount()
