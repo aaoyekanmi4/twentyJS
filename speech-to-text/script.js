@@ -1,9 +1,10 @@
-const toggle = document.getElementById('toggle')
-const close = document.getElementById('close')
+const toggleBtn = document.getElementById('toggle')
+const closeBtn = document.getElementById('close')
 const readBtn = document.getElementById('read')
 const main = document.querySelector('main')
-const text = document.getElementById('text')
 const voicesSelect = document.getElementById('voices')
+const text = document.getElementById('text')
+
 
 const data = [
   {
@@ -66,8 +67,69 @@ const createBox = (item, index) => {
     <p class="info">${text}</p>
     `
     //speak event
-
+  box.addEventListener('click', () => {
+    setTextMessage(text)
+    speakText();
+      //add active effect
+    box.classList.add('active')
+    setTimeout(()=> box.classList.remove('active'), 800)
+  })
     main.appendChild(box);
 }
 
+// init speech synth
+const message = new SpeechSynthesisUtterance();
+
 data.forEach(createBox)
+
+// Store voices
+let voices = [];
+
+function getVoices() {
+  voices = speechSynthesis.getVoices();
+
+  voices.forEach(voice => {
+    const option = document.createElement('option');
+
+    option.value = voice.name;
+    option.innerText = `${voice.name} ${voice.lang}`;
+
+    voicesSelect.appendChild(option)
+  });
+}
+
+// set text
+function setTextMessage (text) {
+  message.text = text;
+}
+
+//speak text
+function speakText () {
+  speechSynthesis.speak(message)
+}
+
+//set voice
+function setVoice(e) {
+  message.voice = voices.find(voice => voice.name === e.target.value)
+}
+
+// voices changed
+speechSynthesis.addEventListener('voiceschanged', getVoices)
+
+
+
+// Toggle text box
+toggleBtn.addEventListener('click', () => document.getElementById('text-box').classList.add('show'));
+
+// Toggle text box
+closeBtn.addEventListener('click', () => document.getElementById('text-box').classList.remove('show'));
+
+//change voice
+voicesSelect.addEventListener('change', setVoice)
+getVoices()
+
+// read textarea text
+readBtn.addEventListener('click', () => {
+  setTextMessage(text.value)
+  speakText()
+})
