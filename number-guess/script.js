@@ -7,7 +7,9 @@ function getRandomNumber () {
 
 const randomNum = getRandomNumber();
 
-function writeMessage(msg) {
+function writeMessage (msg) {
+    const numMsg = +msg
+    if (Number.isNaN(numMsg)) return
     msgEl.innerHTML = `
     <div>You said: </div>
     <span class="box">${msg}</span>
@@ -18,7 +20,8 @@ function checkNumber (msg) {
     // plus converts string to a number
     const num = +msg
     if (Number.isNaN(num)) {
-        msgEl.innerHTML += '<div>You must say a valid number</div>'
+        return
+        // msgEl.innerHTML += '<div>You must say a valid number</div>'
     } else if (num > 100 || num < 1) {
         msgEl.innerHTML += '<div>You must guess a number between 1 and 100</div>'
     } else if (num > randomNum) {
