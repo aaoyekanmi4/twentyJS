@@ -1,16 +1,26 @@
 const wordEl = document.getElementById('word');
 const wrongLettersEl = document.getElementById('wrong-letters');
-const playAgainBtn = document.getElementById('play-again');
+const playAgainBtn = document.getElementById('play-button');
 const popup = document.getElementById('popup-container');
 const notification = document.getElementById('notification-container');
 const finalMessage = document.getElementById('final-message');
 const figureParts = document.querySelectorAll('.figure-part');
 
-const words = ['hello', 'memory', 'friendship', 'purple', 'grand', 'circumspect'];
+const words = ['sore',
+"crush",
+'ring',
+'ossified',
+'happy',
+'warm',
+'property',
+'labored',
+'plan',
+'interrupt',
+'fancy'];
 
 const selectedWord = words[Math.floor(Math.random() * words.length)];
 
-const correctLetters = ['h', 'e', 'l', 'l'];
+const correctLetters = [];
 const wrongLetters = [];
 
 // Show hidden word
@@ -41,12 +51,27 @@ function showNotification()  {
     }, 2000)
 }
 
-function updateWrongLettersEl() {
-    
+function updateWrongLettersEl () {
+  wrongLettersEl.innerHTML =
+   `${wrongLetters.length > 0 ? '<p>Wrong</p>' : ''}
+    ${wrongLetters.map((letter) => `<span>${letter}</span>`)}`
+
+  figureParts.forEach((part, index) => {
+    const errors = wrongLetters.length
+    if (index < errors) {
+      part.style.display = 'flex'
+    } else {
+      part.style.display = 'none'
+    }
+  })
+
+    if (wrongLetters.length === figureParts.length) {
+        finalMessage.innerText = `Unfortunately, you lost.The word was ${selectedWord}.`
+        popup.style.display = 'flex'
+    }
 }
 //Keydown letter press
 window.addEventListener('keydown', (e) => {
-
     if (e.keyCode >= 65 && e.keyCode <= 90) {
         const letter = e.key
         if (selectedWord.includes(letter)) {
@@ -63,9 +88,12 @@ window.addEventListener('keydown', (e) => {
             }
         }
     }
-
 })
 
+//play again
+playAgainBtn.addEventListener('click', () => {
+    window.location.reload()
+})
 displayWord()
 
 
