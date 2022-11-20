@@ -6,16 +6,21 @@ const rateEl = document.getElementById('rate');
 const swap = document.getElementById('swap');
 
 // Fetch exchange rates and update the DOM
-function calculate () {
+async function calculate  ()  {
     let currencyOne = currencyEl_one.value
     let currencyTwo = currencyEl_two.value
-    fetch(` https://v6.exchangerate-api.com/v6/fdeee77eb69e88c28b69461a/latest/${currencyOne}`)
-        .then(res => res.json())
-        .then(data => {
-            const rate = data.conversion_rates[currencyTwo]
-            rateEl.innerText = `1 ${currencyOne} = ${rate} ${currencyTwo}`
-            amountEl_two.value = (rate * amountEl_one.value).toFixed(2)
-        })
+    // fetch(` https://v6.exchangerate-api.com/v6/fdeee77eb69e88c28b69461a/latest/${currencyOne}`)
+    //     .then(res => res.json())
+    //     .then(data => {
+    //         const rate = data.conversion_rates[currencyTwo]
+    //         rateEl.innerText = `1 ${currencyOne} = ${rate} ${currencyTwo}`
+    //         amountEl_two.value = (rate * amountEl_one.value).toFixed(2)
+    //     })
+    const res = await fetch(` https://v6.exchangerate-api.com/v6/fdeee77eb69e88c28b69461a/latest/${currencyOne}`)
+    const data = await res.json()
+    const rate = data.conversion_rates[currencyTwo]
+    rateEl.innerText = `1 ${currencyOne} = ${rate} ${currencyTwo}`
+    amountEl_two.value = (rate * amountEl_one.value).toFixed(2)
 }
 
 currencyEl_one.addEventListener('change', calculate)
