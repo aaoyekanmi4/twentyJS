@@ -1,6 +1,5 @@
 const draggableList = document.getElementById('draggable-list')
 
-
 const words = [
     'cookie',
     'absolute',
