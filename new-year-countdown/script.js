@@ -22,7 +22,7 @@ function updateCountdown () {
     minutes.innerHTML = m < 10 ? '0' + m : m
     hours.innerHTML = h < 10 ? '0' + h : h
     days.innerHTML = d
-}
+}w
 
 setTimeout(() => {
     loading.remove()
